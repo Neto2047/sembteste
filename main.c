@@ -45,7 +45,23 @@ int16_t i6f10Mult(int16_t a, int16_t b){
 }
 
 int16_t i6f10Div(int16_t a, int16_t b){
-  int32_t
+  int32_t temp;
+  int16_t res;
+
+  if((fabs(a) < fabs(b)) || (b==0)){
+    if((b & 0x8000) ^ (a & 0x8000)){
+      return INT16_MIN;
+    }else{
+      return INT16_MAX;
+    }
+  }
+  temp = ((int32_t)a)/(float)(1<<N));
+  temp = temp + (b>>1);
+  result = (int16_t)(temp/(int32_t)b);
+
+  return result;
+}
+
 void gaussSolver(int n, double A[42][42], double b[42], double X[42]) {
     int i, j, k, l, m; //declaracao de varáveis para serem usadas nos loopings
     double F;
